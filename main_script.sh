@@ -4,7 +4,7 @@
 # Error-handling is performed for invalid profiles and user input.
 # Dependencies: cURL (web scraping), Python 3 (JSON parsing), bash (script execution), awk, sed & tr (text pattern-matching and editing)
 # Authors: Adikar Bharath NVS, Ayush Gupta, Prathmesh Dahikar, Sai Siddarth V
-# Last Updated: 9/11/2018
+# Last Updated: 13/11/2018
 
 #======================================================================================================================
 
@@ -130,6 +130,8 @@ codechef() {
 	curl -s $codechef_url > codechef.html
 
 	rating=`awk '/rating-number/' codechef.html | tr -d "[:blank:]"`
+	world_rank=`awk '/ratings\/all"><strong>/' codechef.html | tr -d "[:blank:]"`
+	country_rank=`awk '/ratings\/all\?filterBy=Country/' codechef.html | tr -d "[:blank:]"`
 	fully_solved=`awk '/Fully Solved/' codechef.html | tr -d "[:blank:]"`
 	partially_solved=`awk '/Partially Solved/' codechef.html | tr -d "[:blank:]"`
 
@@ -138,6 +140,8 @@ codechef() {
 		echo "No CodeChef profile associated with this handle."
 	else
 		echo "Rating: ${rating:26:4}"
+		echo "World Rank = ${world_rank:30:-13}"
+		echo "Country Rank = ${country_rank:55:-22}"
 		echo "Problems fully solved: ${fully_solved:16:-6}"
 		echo "Problems partially solved: ${partially_solved:20:-6}"
 	fi
